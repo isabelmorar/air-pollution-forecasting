@@ -1,0 +1,11 @@
+model_weights/
+
+# Virtual environment
+venv/
+
+# IDE files
+.idea/
+
+# Claude files
+claude/
+settings.local.json
