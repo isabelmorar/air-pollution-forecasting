@@ -1,4 +1,5 @@
-model_weights/
+# Jupyter checkpoints
+.ipynb_checkpoints/
 
 # Virtual environment
 venv/
