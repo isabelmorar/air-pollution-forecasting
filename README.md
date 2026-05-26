@@ -5,7 +5,14 @@ Hourly PM2.5 air pollution forecasting for Beijing using two deep learning archi
 ## Project Structure
 
 ```
+├── backend/
+│   ├── main.py                             # FastAPI app, model loading, predict endpoint
+│   ├── schemas.py                          # Pydantic request/response models
+│   └── model.py                            # Model definition
 ├── data/                                   # Raw dataset (CSV)
+├── frontend/
+│   ├── app.py                              # Streamlit dashboard and prediction UI
+│   └── snoopy_world.png      
 ├── model_weights/                          # Saved model checkpoints (.pt)
 ├── src/
 │   ├── preprocessing.py                    # Data loading, encoding, scaling, sequence creation
@@ -41,6 +48,23 @@ Source: [Beijing PM2.5 Data — UCI Machine Learning Repository](https://archive
 
 Open [`pollution_forecasting_results.ipynb`](pollution_forecasting_results.ipynb) and run all cells from top to bottom. 
 The notebook covers EDA, preprocessing, training, evaluation, and model comparison. Pretrained weights are provided in `model_weights/`. To reproduce the full results, run all cells including training. To skip retraining, run all cells up to and including the model definition cells, then jump directly to the evaluation cells — the weights will be loaded from disk.
+
+## Running the App
+
+The project includes a FastAPI backend and a Streamlit frontend.
+
+**Backend**
+```bash
+cd backend
+uvicorn main:app --reload
+```
+
+**Frontend** (in a separate terminal)
+```bash
+cd frontend
+streamlit run app.py
+```
+The backend will be available at `http://localhost:8000` and the frontend at `http://localhost:8501`
 
 ## Results Overview
 
