@@ -291,7 +291,7 @@ html, body, [class*="css"] {
 """, unsafe_allow_html=True)
 
 
-# ── HELPERS ───────────────────────────────────────────────────────────────────
+# Helpers
 def aqi_level(pm25):
     if pm25 <= 12:
         return "Good",       "#276749", "white", "El aire está limpio. Buena jornada para actividades al aire libre."
@@ -347,17 +347,11 @@ df     = load_data()
 latest = df.iloc[-1]
 lvl, pill_color, pill_text, quote = aqi_level(latest["pollution"])
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# HERO
-# ══════════════════════════════════════════════════════════════════════════════
+# Hero
 st.markdown('<div class="hero-title">Air Quality Predictor</div>', unsafe_allow_html=True)
 st.markdown('<div class="hero-sub">PM2.5 Forecasting · Dashboard & Prediction</div>', unsafe_allow_html=True)
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# LAYOUT
-# ══════════════════════════════════════════════════════════════════════════════
+# Layout
 left, right = st.columns([1, 3.8], gap="large")
 
 with left:
@@ -382,7 +376,7 @@ with left:
 with right:
     tab1, tab2 = st.tabs(["  Dashboard  ", "  Predict  "])
 
-    # ── DASHBOARD ─────────────────────────────────────────────────────────────
+    # Dashboard
     with tab1:
         st.markdown('<div class="section-title">Current Conditions</div>', unsafe_allow_html=True)
 
@@ -448,7 +442,7 @@ with right:
                                "title": "PM2.5 estimated — next 24h"})
         st.plotly_chart(fig3, use_container_width=True)
 
-    # ── PREDICCION ────────────────────────────────────────────────────────────
+    # Predict
     with tab2:
         st.markdown('<div class="section-title">Input Variables</div>', unsafe_allow_html=True)
 
@@ -505,7 +499,7 @@ with right:
                 </div>
                 """, unsafe_allow_html=True)
 
-# ── FOOTER ────────────────────────────────────────────────────────────────────
+# Footer
 st.markdown("""
 <div style="text-align:center; font-size:0.74rem; color:#9CA3AF; margin-top:2.5rem;
             padding-top:1rem; border-top:1px solid #C3D9EF; letter-spacing:0.2px;">
