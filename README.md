@@ -22,7 +22,7 @@ Hourly PM2.5 air pollution forecasting for Beijing using two deep learning archi
 
 Hourly measurements from the US Embassy in Beijing (2010–2014), including PM2.5 concentration and meteorological variables: dew point, temperature, pressure, wind direction, wind speed, snowfall, and rainfall. 43,800 records, no missing values.
 
-Source: [LSTM Datasets — Multivariate/Univariate on Kaggle](https://www.kaggle.com/datasets/rupakroy/lstm-datasets-multivariate-univariate?resource=download)
+Source: [Beijing PM2.5 Data — UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/381/beijing+pm2+5+data)
 
 ## Setup
 
