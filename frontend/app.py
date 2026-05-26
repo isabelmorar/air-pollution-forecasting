@@ -310,11 +310,12 @@ def fake_forecast(base, hours=24):
     return pd.DataFrame({"time": [datetime.now() + timedelta(hours=i) for i in range(hours)],
                          "pm25": vals})
 
-def call_api(pollution, dew, temp, press, wnd_spd, snow, rain, wnd_dir):
+def call_api(df, pollution, dew, temp, press, wnd_spd, snow, rain, wnd_dir):
+    history = df.tail(23)[["pollution","dew","temp","press","wnd_spd","snow","rain"]].values.tolist()
+    history.append([pollution, dew, temp, press, wnd_spd, snow, rain])
     payload = {
-    "pm25": pollution, "dew": dew, "temp": temp,
-    "press": press, "wnd_spd": wnd_spd, "snow": snow, 
-    "rain": rain, "wnd_dir": wnd_dir
+        "history": history,  
+        "wnd_dir": wnd_dir
     }
     try:
         response = requests.post("http://localhost:8000/predict", json=payload, timeout=5)
@@ -415,7 +416,7 @@ with right:
                               annotation_text=lbl, annotation_font_size=10,
                               annotation_font_color=clr, annotation_position="right")
             fig.update_layout(**{**PLOT_CFG, "title": "PM2.5 (μg/m³)"})
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
 
         with c2:
             fig2 = go.Figure()
@@ -428,7 +429,7 @@ with right:
             ))
             fig2.update_layout(**{**PLOT_CFG, "title": "Viento vs PM2.5",
                                   "xaxis_title": "Wind (km/h)", "yaxis_title": "PM2.5 (μg/m³)"})
-            st.plotly_chart(fig2, use_container_width=True)
+            st.plotly_chart(fig2, width='stretch')
 
         st.markdown('<div class="section-title">Forecast 24 Hours</div>', unsafe_allow_html=True)
         fdf = fake_forecast(latest["pollution"])
@@ -440,7 +441,7 @@ with right:
         ))
         fig3.update_layout(**{**PLOT_CFG, "height": 215,
                                "title": "PM2.5 estimated — next 24h"})
-        st.plotly_chart(fig3, use_container_width=True)
+        st.plotly_chart(fig3, width='stretch')
 
     # Predict
     with tab2:
@@ -481,8 +482,10 @@ with right:
             predict_btn = st.button("Predict")
 
         if predict_btn:
-            pred = call_api(sliders["pm25"], sliders["dew"], sliders["temp"],
+            pred = call_api(df, sliders["pm25"], sliders["dew"], sliders["temp"],
                     sliders["press"], sliders["wnd_spd"], sliders["snow"], sliders["rain"], sliders["wnd_dir"])
+            if pred is None:
+                st.stop()
             p_lvl, p_color, p_txt, p_quote = aqi_level(pred)
             st.markdown("")
             res_col, _ = st.columns([1, 2])
